@@ -1,0 +1,30 @@
+Step 1: Verify Snort installation
+snort -V
+
+
+Confirm that the Snort version is displayed.
+Step 2: Create a detection rule
+echo 'alert tcp any any -> any 4444 (msg:"SNORT TEST ALERT"; sid:1000001; rev:1;)' > local.rules
+
+
+Step 3: Start Snort
+For Snort 3, run:
+sudo snort -c /etc/snort/snort.lua -R local.rules -i lo -A alert_fast
+For Snort 2, run:
+sudo snort -c /etc/snort/snort.conf -R local.rules -i lo -A console
+
+
+Keep Snort running in this terminal.
+Step 4: Generate test traffic
+Open another terminal and run:
+nc -l 4444
+
+
+Open a third terminal and send test traffic:
+echo "Test message" | nc -w 2 127.0.0.1 4444
+
+
+Step 5: Observe the result
+Check the Snort terminal.
+
+Expected output: An alert containing SNORT TEST ALERT.
