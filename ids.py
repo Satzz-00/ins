@@ -1,4 +1,3 @@
-
 from scapy.all import sniff, IP, TCP
 
 ports = {}
@@ -15,3 +14,6 @@ def detect(p):
 
 print("IDS started...")
 sniff(filter="tcp", prn=detect, store=False)
+
+sudo python3 ids.py
+sudo python3 -c "from scapy.all import *; [send(IP(dst='127.0.0.1')/TCP(dport=p,flags='S'),verbose=False) for p in range(8001,8006)]"
