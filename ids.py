@@ -1,11 +1,17 @@
-from scapy.all import sniff,IP,TCP
-from collection import defaultdict
-    port = defaultdict(list)
-def detect(P):
-    if IP in p and TCP in p & p[TCP]:
-        IP = p[IP].src
-        now = time.time()
-     ports[ip] = [(t,x) for t,x in ports[IP] if now_t <-- 10]
-     unique = {x for t,x in ports [IP]}
-print ("IDS started")
-sniff(filter="tcp",prn=detect,store=False)
+
+from scapy.all import sniff, IP, TCP
+
+ports = {}
+
+def detect(p):
+    if IP in p and TCP in p:
+        ip = p[IP].src
+        port = p[TCP].dport
+
+        ports.setdefault(ip, set()).add(port)
+
+        if len(ports[ip]) == 5:
+            print("ALERT! Possible port scan from", ip)
+
+print("IDS started...")
+sniff(filter="tcp", prn=detect, store=False)
